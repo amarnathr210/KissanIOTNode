@@ -76,6 +76,7 @@ exports.adddevicetoken = async(function*(req, res, next) {
     return next();
   }
 });
+
 exports.adddevicebaseline = async(function*(req, res, next) {
   try {
     var Devicebaselineobj = new Devicebaseline(req.body);
