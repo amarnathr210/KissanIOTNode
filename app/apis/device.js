@@ -10,6 +10,7 @@ exports.insertUser = async(function*(req, res, next) {
   try {
     var ObjUser = new User(req.body);
     ObjUser = yield ObjUser.save();
+    // console.log(req.body);
     res.send(ObjUser).status(200);
   } catch (error) {
     console.log(error);
@@ -53,6 +54,7 @@ exports.adddevice = async(function*(req, res, next) {
     Deviceinfoobj.User = objUser;
     Deviceinfoobj.DeviceToken = objDeviceToken;
     Deviceinfoobj.DeviceBaseLines = objDeviceBaseline;
+    Deviceinfoobj.DeviceName = req.body.DeviceName;
     Deviceinfoobj = yield Deviceinfoobj.save();
     res.send(Deviceinfoobj).status(200);
   } catch (error) {
@@ -163,13 +165,13 @@ exports.updateDeviceStatus = async(function*(req, res, next) {
 /*embbeded device code */
 exports.AuthenticateDevice = async(function*(req, res, next) {
   try {
-    console.log(req.query.DeviceToken);
     var objDeviceToken = yield DeviceToken.findOne({
       DeviceToken: req.body.deviceToken
     }).populate({ path: "User" });
-    console.log(objDeviceToken);
+
     req.body.userId = objDeviceToken.User.LoginUserName;
-    res.status(200).send(objDeviceToken);
+    // res.status(200).send(objDeviceToken);
+    return next();
   } catch (error) {
     console.log(error);
     return next();
@@ -178,11 +180,13 @@ exports.AuthenticateDevice = async(function*(req, res, next) {
 
 exports.GetDeviceStatus = async(function*(req, res, next) {
   try {
-    console.log(req.query.DeviceToken);
     var objDeviceToken = yield DeviceToken.findOne({
-      DeviceToken: req.body.deviceToken
+      Token: req.query.DeviceToken
+    }).populate({ path: "User" });
+
+    var objDeviceinfo = yield Deviceinfo.findOne({
+      DeviceToken: objDeviceToken._id
     });
-    var objDeviceinfo = Deviceinfo.findOne({ DeviceToken: objDeviceToken._id });
     req.body.userId = objDeviceToken.User.LoginUserName;
     res.status(200).send(objDeviceinfo);
   } catch (error) {

@@ -50,8 +50,7 @@ exports.deviceauthentication = (req, res) => {
     let refresh_token = b.toString("base64");
     req.body.token = token;
     req.body.refreshToken = refresh_token;
-    res.status(201).send({ token });
-    // res.status(201).send(req.body);
+    res.status(201).send(token);
   } catch (err) {
     console.log(err);
     res.status(500).send({ errors: err });

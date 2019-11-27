@@ -4,6 +4,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+function toLower(d) {
+  return d.toLowerCase();
+}
 const UserSchema = new Schema({
   FirstName: { type: String },
   LastName: { type: String },

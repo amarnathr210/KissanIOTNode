@@ -1,4 +1,4 @@
 module.exports = {
-  db: process.env.MONGODB_URL || "mongodb://localhost/noobjs_poc",
+  db: process.env.MONGODB_URL || "mongodb://localhost/kissaniot",
   jwt_secret: process.env.jwt_secret
 };
