@@ -6,14 +6,13 @@ const Schema = mongoose.Schema;
 const crypto = require("crypto");
 
 const DeviceinfoSchema = new Schema({
-  //   DeviceID: { type: int },
+  DeviceName: { type: String },
   DeviceBaseLines: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "DeviceBaseLine",
     required: true
   },
   DeviceUniqueID: { type: String },
-  // User: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   DeviceToken: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "DeviceToken",
