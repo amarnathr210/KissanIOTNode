@@ -62,7 +62,8 @@ exports.isPasswordAndUserMatch = (req, res, next) => {
           email: user.email,
           // permissionLevel: user.permissionLevel,
           provider: "email",
-          name: user.FirstName + " " + user.LastName
+          name: user.FirstName + " " + user.LastName,
+          loginusername: user.FirstName + " " + user.LastName
         };
         return next();
       } else {
