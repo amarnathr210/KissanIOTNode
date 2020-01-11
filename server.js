@@ -52,7 +52,7 @@ function mongoErrors(error) {
 
 function connect() {
   console.log(config.db);
-  mqttsubscriber.subscribeMessage("iotdevice/login");
+  mqttsubscriber.subscribeMessage ("iotdevice/login");
   mongoose.connection
     .on("error", console.log)
     .on("disconnected", connect)
