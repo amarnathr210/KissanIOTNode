@@ -5,7 +5,6 @@ const Devicebaseline = mongoose.model("DeviceBaseLine");
 const User = mongoose.model("User");
 const DeviceToken = mongoose.model("DeviceToken");
 const crypto = require("crypto");
-const mqttbroker = require("../mqtt/mqttbroker");
 
 exports.insertUser = async(function*(req, res, next) {
   try {
@@ -147,21 +146,16 @@ exports.getdeviceinfobydeviceid = async(function*(req, res, next) {
 /*updating the device status from the web site or mobile with deviceUniqueID */
 exports.updateDeviceStatus = async(function*(req, res, next) {
   try {
-    var objDeviceinfo = yield Deviceinfo.updateOne(
+    yield Deviceinfo.updateOne(
       {
         DeviceUniqueID: req.body.DeviceUniqueID
       },
       { SensorStatus: req.body.SensorStatus },
       function(err, affected, resp) {
-        //console.log(affected);
+        console.log(affected);
       }
     );
-    mqttbroker.PublishMqttMessage(
-      req.body.DeviceToken + "/" + req.body.DeviceName,
-      req.body.SensorStatus
-    );
-    //console.log(objDeviceinfo);
-    res.send(objDeviceinfo).status(200);
+    res.status(200);
   } catch (error) {
     console.log(error);
     return next();
@@ -194,9 +188,7 @@ exports.GetDeviceStatus = async(function*(req, res, next) {
       DeviceToken: objDeviceToken._id
     });
     req.body.userId = objDeviceToken.User.LoginUserName;
-    res
-      .status(200)
-      .send(objDeviceinfo.DeviceToken + "/" + objDeviceinfo.DeviceName);
+    res.status(200).send(objDeviceinfo);
   } catch (error) {
     console.log(error);
     return next();

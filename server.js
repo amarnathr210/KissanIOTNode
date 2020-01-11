@@ -9,8 +9,8 @@ const app = express();
 const https = require("https");
 const models = join(__dirname, "app/models");
 const config = require("./config");
+
 const port = process.env.PORT || 4000;
-const mqttsubscriber = require("./app/mqtt/mqttbroker");
 /**
  * Expose
  */
@@ -52,7 +52,6 @@ function mongoErrors(error) {
 
 function connect() {
   console.log(config.db);
-  mqttsubscriber.subscribeMessage ("iotdevice/login");
   mongoose.connection
     .on("error", console.log)
     .on("disconnected", connect)
